@@ -1,1281 +1,559 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="bn">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rays L1 Token Studio | Professional Token Creation</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <title>Airdrop Project Manager</title>
     <style>
-        :root {
-            --primary: #7C3AED;
-            --primary-dark: #6D28D9;
-            --primary-light: #8B5CF6;
-            --secondary: #06D6A0;
-            --secondary-dark: #05BF8A;
-            --accent: #FF6B6B;
-            --dark: #0F0F23;
-            --darker: #080814;
-            --light: #F0F4FF;
-            --gray: #8B9BBE;
-            --card-bg: rgba(30, 30, 60, 0.6);
-            --card-border: rgba(124, 58, 237, 0.3);
-            --success: #06D6A0;
-            --error: #FF6B6B;
-            --warning: #FFD166;
-        }
-        
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Space Grotesk', sans-serif;
         }
         
         body {
-            background: linear-gradient(135deg, var(--darker) 0%, var(--dark) 50%, #1a1a3a 100%);
-            color: var(--light);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
-            line-height: 1.6;
-            overflow-x: hidden;
-        }
-        
-        /* Animated Background Elements */
-        .bg-elements {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            overflow: hidden;
-        }
-        
-        .bg-element {
-            position: absolute;
-            border-radius: 50%;
-            background: radial-gradient(circle, var(--primary) 0%, transparent 70%);
-            opacity: 0.1;
-            animation: float 20s infinite linear;
-        }
-        
-        .bg-element:nth-child(1) {
-            width: 300px;
-            height: 300px;
-            top: 10%;
-            left: 5%;
-            animation-delay: 0s;
-        }
-        
-        .bg-element:nth-child(2) {
-            width: 200px;
-            height: 200px;
-            top: 60%;
-            left: 80%;
-            animation-delay: -5s;
-            background: radial-gradient(circle, var(--secondary) 0%, transparent 70%);
-        }
-        
-        .bg-element:nth-child(3) {
-            width: 400px;
-            height: 400px;
-            top: 30%;
-            left: 60%;
-            animation-delay: -10s;
-            background: radial-gradient(circle, var(--accent) 0%, transparent 70%);
-        }
-        
-        @keyframes float {
-            0% {
-                transform: translate(0, 0) rotate(0deg);
-            }
-            33% {
-                transform: translate(30px, -50px) rotate(120deg);
-            }
-            66% {
-                transform: translate(-20px, 20px) rotate(240deg);
-            }
-            100% {
-                transform: translate(0, 0) rotate(360deg);
-            }
+            padding: 20px;
         }
         
         .container {
-            max-width: 1400px;
+            max-width: 1200px;
             margin: 0 auto;
-            padding: 0 20px;
         }
         
-        /* Header Styles */
-        header {
-            padding: 1.5rem 0;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: relative;
-        }
-        
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            font-size: 1.8rem;
-            font-weight: 700;
+        .header {
+            text-align: center;
             color: white;
-            text-decoration: none;
+            margin-bottom: 30px;
         }
         
-        .logo-icon {
-            width: 44px;
-            height: 44px;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            overflow: hidden;
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
         }
         
-        .logo-icon::after {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(to bottom right, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0) 50%);
-            transform: rotate(30deg);
-        }
-        
-        .logo-text {
-            background: linear-gradient(to right, var(--light) 0%, var(--primary-light) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        
-        .nav-links {
-            display: flex;
-            gap: 2rem;
-        }
-        
-        .nav-link {
-            color: var(--gray);
-            text-decoration: none;
-            font-weight: 500;
-            transition: all 0.3s ease;
-            position: relative;
-            padding: 0.5rem 0;
-        }
-        
-        .nav-link:hover, .nav-link.active {
-            color: var(--light);
-        }
-        
-        .nav-link::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: linear-gradient(to right, var(--primary), var(--secondary));
-            transition: width 0.3s ease;
-        }
-        
-        .nav-link:hover::after, .nav-link.active::after {
-            width: 100%;
-        }
-        
-        .wallet-section {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-        
-        .wallet-info {
-            display: none;
-            align-items: center;
-            gap: 0.75rem;
-            background: var(--card-bg);
-            padding: 0.75rem 1.5rem;
-            border-radius: 50px;
-            border: 1px solid var(--card-border);
-            backdrop-filter: blur(10px);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-        }
-        
-        .wallet-avatar {
-            width: 36px;
-            height: 36px;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.9rem;
-        }
-        
-        .wallet-details {
-            display: flex;
-            flex-direction: column;
-        }
-        
-        .wallet-address {
-            font-weight: 600;
-            font-size: 0.9rem;
-        }
-        
-        .wallet-balance {
-            color: var(--secondary);
-            font-weight: 600;
-            font-size: 0.85rem;
-        }
-        
-        .btn {
-            padding: 0.85rem 1.8rem;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+        .add-project-btn {
+            background: #4CAF50;
             color: white;
             border: none;
-            border-radius: 12px;
-            font-weight: 600;
-            font-size: 0.95rem;
+            padding: 15px 30px;
+            font-size: 18px;
+            border-radius: 25px;
             cursor: pointer;
-            transition: all 0.3s ease;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-            box-shadow: 0 4px 12px rgba(124, 58, 237, 0.3);
-            position: relative;
-            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            transition: all 0.3s;
         }
         
-        .btn::before {
-            content: '';
-            position: absolute;
+        .add-project-btn:hover {
+            background: #45a049;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
             top: 0;
-            left: -100%;
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-            transition: left 0.5s;
+            background-color: rgba(0,0,0,0.5);
+            overflow-y: auto;
         }
         
-        .btn:hover::before {
-            left: 100%;
+        .modal-content {
+            background-color: white;
+            margin: 50px auto;
+            padding: 30px;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 600px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
         }
         
-        .btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(124, 58, 237, 0.4);
-        }
-        
-        .btn-wallet {
-            background: linear-gradient(135deg, var(--card-bg) 0%, rgba(30, 30, 60, 0.8) 100%);
-            border: 1px solid var(--card-border);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-        }
-        
-        .btn-wallet:hover {
-            box-shadow: 0 8px 20px rgba(124, 58, 237, 0.3);
-        }
-        
-        .btn-disconnect {
-            background: rgba(239, 68, 68, 0.2);
-            color: var(--error);
-            padding: 0.5rem 1rem;
-            font-size: 0.8rem;
-            border: 1px solid rgba(239, 68, 68, 0.3);
-        }
-        
-        .btn-disconnect:hover {
-            background: rgba(239, 68, 68, 0.3);
-        }
-        
-        /* Hero Section */
-        .hero {
-            text-align: center;
-            padding: 4rem 0 3rem;
-            position: relative;
-        }
-        
-        .hero h1 {
-            font-size: 3.5rem;
-            margin-bottom: 1.5rem;
-            background: linear-gradient(to right, var(--light) 0%, var(--primary-light) 30%, var(--secondary) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            line-height: 1.2;
-        }
-        
-        .hero p {
-            font-size: 1.3rem;
-            color: var(--gray);
-            max-width: 700px;
-            margin: 0 auto 3rem;
-            line-height: 1.6;
-        }
-        
-        .network-info {
-            display: flex;
-            justify-content: center;
-            gap: 2rem;
-            margin-bottom: 4rem;
-            flex-wrap: wrap;
-        }
-        
-        .network-card {
-            background: var(--card-bg);
-            border-radius: 16px;
-            padding: 1.8rem;
-            min-width: 220px;
-            border: 1px solid var(--card-border);
-            backdrop-filter: blur(10px);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-        
-        .network-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
-        }
-        
-        .network-card h3 {
-            color: var(--gray);
-            font-size: 0.9rem;
-            margin-bottom: 0.8rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-        
-        .network-card p {
-            font-size: 1.2rem;
-            font-weight: 600;
-        }
-        
-        /* Main Content */
-        .main-content {
-            display: flex;
-            gap: 2rem;
-            margin-bottom: 4rem;
-        }
-        
-        .sidebar {
-            flex: 0 0 280px;
-            background: var(--card-bg);
-            border-radius: 20px;
-            padding: 2rem;
-            border: 1px solid var(--card-border);
-            backdrop-filter: blur(10px);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-            height: fit-content;
-        }
-        
-        .sidebar-title {
-            font-size: 1.2rem;
-            margin-bottom: 1.5rem;
-            color: var(--light);
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-        
-        .sidebar-nav {
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-        }
-        
-        .sidebar-item {
-            padding: 1rem 1.2rem;
-            border-radius: 12px;
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
             cursor: pointer;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            gap: 0.8rem;
-            color: var(--gray);
         }
         
-        .sidebar-item:hover {
-            background: rgba(124, 58, 237, 0.1);
-            color: var(--light);
-        }
-        
-        .sidebar-item.active {
-            background: linear-gradient(135deg, rgba(124, 58, 237, 0.2) 0%, rgba(6, 214, 160, 0.1) 100%);
-            color: var(--light);
-            border-left: 3px solid var(--primary);
-        }
-        
-        .content-area {
-            flex: 1;
-            background: var(--card-bg);
-            border-radius: 20px;
-            padding: 2.5rem;
-            border: 1px solid var(--card-border);
-            backdrop-filter: blur(10px);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-        }
-        
-        .tab-content {
-            display: none;
-        }
-        
-        .tab-content.active {
-            display: block;
-            animation: fadeIn 0.5s ease;
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        .content-header {
-            margin-bottom: 2rem;
-        }
-        
-        .content-title {
-            font-size: 1.8rem;
-            margin-bottom: 0.5rem;
-            color: var(--light);
-        }
-        
-        .content-description {
-            color: var(--gray);
-            font-size: 1.1rem;
+        .close:hover {
+            color: #000;
         }
         
         .form-group {
-            margin-bottom: 1.8rem;
+            margin-bottom: 20px;
         }
         
         .form-group label {
             display: block;
-            margin-bottom: 0.8rem;
-            font-weight: 600;
-            color: var(--light);
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #333;
         }
         
-        .form-control {
+        .form-group input[type="text"],
+        .form-group input[type="url"],
+        .form-group textarea,
+        .form-group select {
             width: 100%;
-            padding: 1.2rem;
-            background: rgba(15, 15, 35, 0.7);
-            border: 1px solid rgba(124, 58, 237, 0.3);
-            border-radius: 12px;
-            color: white;
-            font-size: 1rem;
-            transition: all 0.3s ease;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border 0.3s;
         }
         
-        .form-control:focus {
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
             outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.2);
+            border-color: #667eea;
         }
         
-        .form-row {
-            display: flex;
-            gap: 1.5rem;
+        .form-group textarea {
+            min-height: 100px;
+            resize: vertical;
         }
         
-        .form-row .form-group {
-            flex: 1;
-        }
-        
-        .token-preview {
-            background: rgba(15, 15, 35, 0.7);
-            border-radius: 16px;
-            padding: 2rem;
-            margin-top: 2.5rem;
-            border: 1px solid rgba(124, 58, 237, 0.3);
-        }
-        
-        .token-preview h3 {
-            margin-bottom: 1.5rem;
-            color: var(--light);
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-        
-        .preview-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 1.5rem;
-        }
-        
-        .preview-item {
-            background: rgba(30, 30, 60, 0.5);
-            border-radius: 12px;
-            padding: 1.2rem;
-            border: 1px solid rgba(124, 58, 237, 0.2);
-        }
-        
-        .preview-label {
-            color: var(--gray);
-            font-size: 0.9rem;
-            margin-bottom: 0.5rem;
-        }
-        
-        .preview-value {
-            font-weight: 600;
-            font-size: 1.1rem;
-        }
-        
-        .alert {
-            padding: 1.2rem;
-            border-radius: 12px;
-            margin-bottom: 1.8rem;
+        .logo-preview {
+            max-width: 150px;
+            max-height: 150px;
+            margin-top: 10px;
+            border-radius: 8px;
             display: none;
-            border-left: 4px solid;
         }
         
-        .alert-success {
-            background: rgba(6, 214, 160, 0.1);
-            border-color: var(--success);
-            color: var(--success);
-        }
-        
-        .alert-error {
-            background: rgba(255, 107, 107, 0.1);
-            border-color: var(--error);
-            color: var(--error);
-        }
-        
-        .alert-warning {
-            background: rgba(255, 209, 102, 0.1);
-            border-color: var(--warning);
-            color: var(--warning);
-        }
-        
-        /* Wallet Modal */
-        .wallet-modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(8, 8, 20, 0.9);
-            z-index: 1000;
-            align-items: center;
-            justify-content: center;
-            backdrop-filter: blur(5px);
-        }
-        
-        .wallet-modal-content {
-            background: var(--card-bg);
-            border-radius: 20px;
-            padding: 2.5rem;
-            width: 100%;
-            max-width: 450px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
-            border: 1px solid var(--card-border);
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .wallet-modal-content::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 4px;
-            background: linear-gradient(to right, var(--primary), var(--secondary));
-        }
-        
-        .wallet-modal-header {
-            margin-bottom: 2rem;
-        }
-        
-        .wallet-modal-title {
-            font-size: 1.8rem;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-        }
-        
-        .wallet-modal-subtitle {
-            color: var(--gray);
-        }
-        
-        .wallet-options {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-        }
-        
-        .wallet-option {
-            display: flex;
-            align-items: center;
-            gap: 1.2rem;
-            padding: 1.5rem;
-            background: rgba(15, 15, 35, 0.7);
-            border-radius: 12px;
+        .submit-btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-size: 16px;
+            border-radius: 8px;
             cursor: pointer;
-            transition: all 0.3s ease;
-            border: 1px solid transparent;
+            width: 100%;
+            transition: all 0.3s;
         }
         
-        .wallet-option:hover {
-            background: rgba(124, 58, 237, 0.1);
-            border-color: var(--primary);
-            transform: translateY(-3px);
+        .submit-btn:hover {
+            background: #5568d3;
         }
         
-        .wallet-icon {
-            width: 50px;
-            height: 50px;
-            background: rgba(124, 58, 237, 0.2);
-            border-radius: 12px;
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+        
+        .project-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+            transition: all 0.3s;
+            position: relative;
+        }
+        
+        .project-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        
+        .project-header {
             display: flex;
             align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
+            margin-bottom: 15px;
+            gap: 15px;
         }
         
-        .wallet-details {
+        .project-logo {
+            width: 60px;
+            height: 60px;
+            border-radius: 10px;
+            object-fit: cover;
+        }
+        
+        .project-title {
+            flex: 1;
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .project-link {
+            display: inline-block;
+            color: #667eea;
+            text-decoration: none;
+            margin-bottom: 10px;
+            word-break: break-all;
+        }
+        
+        .project-link:hover {
+            text-decoration: underline;
+        }
+        
+        .project-notes {
+            background: #f5f5f5;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            color: #666;
+            line-height: 1.6;
+        }
+        
+        .reminder-badge {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        
+        .daily {
+            background: #4CAF50;
+            color: white;
+        }
+        
+        .weekly {
+            background: #2196F3;
+            color: white;
+        }
+        
+        .project-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        .delete-btn {
+            background: #f44336;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
             flex: 1;
         }
         
-        .wallet-name {
-            font-weight: 600;
-            font-size: 1.1rem;
-            margin-bottom: 0.3rem;
+        .delete-btn:hover {
+            background: #da190b;
         }
         
-        .wallet-description {
-            font-size: 0.9rem;
-            color: var(--gray);
+        .edit-btn {
+            background: #FF9800;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            flex: 1;
         }
         
-        .footer {
+        .edit-btn:hover {
+            background: #e68900;
+        }
+        
+        .empty-state {
             text-align: center;
-            padding: 3rem 0;
-            margin-top: 4rem;
-            color: var(--gray);
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
-        }
-        
-        .footer-links {
-            display: flex;
-            justify-content: center;
-            gap: 2rem;
-            margin-top: 1.5rem;
-        }
-        
-        .footer-links a {
-            color: var(--gray);
-            text-decoration: none;
-            transition: color 0.3s ease;
-        }
-        
-        .footer-links a:hover {
-            color: var(--primary);
-        }
-        
-        @media (max-width: 1024px) {
-            .main-content {
-                flex-direction: column;
-            }
-            
-            .sidebar {
-                flex: none;
-                width: 100%;
-            }
-        }
-        
-        @media (max-width: 768px) {
-            .hero h1 {
-                font-size: 2.5rem;
-            }
-            
-            .network-info {
-                flex-direction: column;
-                align-items: center;
-            }
-            
-            .form-row {
-                flex-direction: column;
-                gap: 0;
-            }
-            
-            header {
-                flex-direction: column;
-                gap: 1.5rem;
-            }
-            
-            .nav-links {
-                gap: 1.5rem;
-            }
+            color: white;
+            padding: 50px;
+            font-size: 1.2em;
         }
     </style>
 </head>
 <body>
-    <!-- Animated Background Elements -->
-    <div class="bg-elements">
-        <div class="bg-element"></div>
-        <div class="bg-element"></div>
-        <div class="bg-element"></div>
-    </div>
-    
     <div class="container">
-        <header>
-            <a href="#" class="logo">
-                <div class="logo-icon">
-                    <i class="fas fa-bolt"></i>
-                </div>
-                <span class="logo-text">Rays Studio</span>
-            </a>
-            
-            <div class="nav-links">
-                <a href="#" class="nav-link active">Dashboard</a>
-                <a href="#" class="nav-link">Create</a>
-                <a href="#" class="nav-link">My Tokens</a>
-                <a href="#" class="nav-link">Analytics</a>
-                <a href="#" class="nav-link">Docs</a>
-            </div>
-            
-            <div class="wallet-section">
-                <div class="wallet-info" id="wallet-info">
-                    <div class="wallet-avatar">
-                        <i class="fas fa-wallet"></i>
-                    </div>
-                    <div class="wallet-details">
-                        <div class="wallet-address" id="wallet-address">0x742...d35e</div>
-                        <div class="wallet-balance" id="wallet-balance">0 USDgas</div>
-                    </div>
-                    <button class="btn btn-disconnect" id="disconnect-wallet">
-                        <i class="fas fa-sign-out-alt"></i>
-                    </button>
-                </div>
-                
-                <button class="btn btn-wallet" id="connect-wallet">
-                    <i class="fas fa-wallet"></i>
-                    <span>Connect Wallet</span>
-                </button>
-            </div>
-        </header>
-        
-        <section class="hero">
-            <h1>Create Tokens on Rays L1 Testnet</h1>
-            <p>Deploy custom tokens and smart contracts with our professional-grade token studio. No coding required.</p>
-            
-            <div class="network-info">
-                <div class="network-card">
-                    <h3>Chain ID</h3>
-                    <p>123123</p>
-                </div>
-                <div class="network-card">
-                    <h3>Network Name</h3>
-                    <p>Rays L1 Testnet</p>
-                </div>
-                <div class="network-card">
-                    <h3>Currency Symbol</h3>
-                    <p>USDgas</p>
-                </div>
-                <div class="network-card">
-                    <h3>RPC URL</h3>
-                    <p style="font-size: 0.9rem;">https://devnet-rpc.rays.com</p>
-                </div>
-            </div>
-        </section>
-        
-        <div class="main-content">
-            <div class="sidebar">
-                <h2 class="sidebar-title">
-                    <i class="fas fa-cube"></i>
-                    Token Studio
-                </h2>
-                <div class="sidebar-nav">
-                    <div class="sidebar-item active" data-tab="token">
-                        <i class="fas fa-coins"></i>
-                        <span>Create Token</span>
-                    </div>
-                    <div class="sidebar-item" data-tab="contract">
-                        <i class="fas fa-file-contract"></i>
-                        <span>Deploy Contract</span>
-                    </div>
-                    <div class="sidebar-item" data-tab="manage">
-                        <i class="fas fa-tools"></i>
-                        <span>Manage Assets</span>
-                    </div>
-                    <div class="sidebar-item" data-tab="analytics">
-                        <i class="fas fa-chart-bar"></i>
-                        <span>Token Analytics</span>
-                    </div>
-                    <div class="sidebar-item" data-tab="settings">
-                        <i class="fas fa-cog"></i>
-                        <span>Settings</span>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="content-area">
-                <div class="tab-content active" id="token-tab">
-                    <div class="content-header">
-                        <h2 class="content-title">Create New Token</h2>
-                        <p class="content-description">Configure your token parameters and deploy to the Rays L1 Testnet</p>
-                    </div>
-                    
-                    <div class="alert alert-warning" id="wallet-warning">
-                        <i class="fas fa-exclamation-triangle"></i> Please connect your wallet to create tokens
-                    </div>
-                    
-                    <div class="alert alert-success" id="token-success">
-                        <i class="fas fa-check-circle"></i> Token created successfully! Transaction hash: <span id="tx-hash"></span>
-                    </div>
-                    
-                    <div class="alert alert-error" id="token-error">
-                        <i class="fas fa-exclamation-circle"></i> Error creating token. Please check your inputs and try again.
-                    </div>
-                    
-                    <form id="token-form">
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="token-name">
-                                    <i class="fas fa-tag"></i> Token Name
-                                </label>
-                                <input type="text" id="token-name" class="form-control" placeholder="My Token" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="token-symbol">
-                                    <i class="fas fa-code"></i> Token Symbol
-                                </label>
-                                <input type="text" id="token-symbol" class="form-control" placeholder="MTK" required>
-                            </div>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="token-supply">
-                                <i class="fas fa-layer-group"></i> Total Supply
-                            </label>
-                            <input type="number" id="token-supply" class="form-control" placeholder="1000000" required>
-                        </div>
-                        
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="token-decimals">
-                                    <i class="fas fa-divide"></i> Decimals
-                                </label>
-                                <input type="number" id="token-decimals" class="form-control" value="18" min="0" max="18" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="token-owner">
-                                    <i class="fas fa-user"></i> Owner Address
-                                </label>
-                                <input type="text" id="token-owner" class="form-control" placeholder="0x..." required>
-                            </div>
-                        </div>
-                        
-                        <button type="submit" class="btn btn-full" id="create-token-btn" style="padding: 1.2rem;">
-                            <i class="fas fa-plus-circle"></i>
-                            <span>Create Token</span>
-                        </button>
-                    </form>
-                    
-                    <div class="token-preview">
-                        <h3>
-                            <i class="fas fa-eye"></i> Token Preview
-                        </h3>
-                        <div class="preview-grid">
-                            <div class="preview-item">
-                                <div class="preview-label">Name</div>
-                                <div class="preview-value" id="preview-name">-</div>
-                            </div>
-                            <div class="preview-item">
-                                <div class="preview-label">Symbol</div>
-                                <div class="preview-value" id="preview-symbol">-</div>
-                            </div>
-                            <div class="preview-item">
-                                <div class="preview-label">Total Supply</div>
-                                <div class="preview-value" id="preview-supply">-</div>
-                            </div>
-                            <div class="preview-item">
-                                <div class="preview-label">Decimals</div>
-                                <div class="preview-value" id="preview-decimals">-</div>
-                            </div>
-                            <div class="preview-item">
-                                <div class="preview-label">Owner</div>
-                                <div class="preview-value" id="preview-owner">-</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="tab-content" id="contract-tab">
-                    <div class="content-header">
-                        <h2 class="content-title">Deploy Smart Contract</h2>
-                        <p class="content-description">Deploy custom smart contracts to the Rays L1 Testnet</p>
-                    </div>
-                    
-                    <div class="alert alert-warning" id="contract-wallet-warning">
-                        <i class="fas fa-exclamation-triangle"></i> Please connect your wallet to deploy contracts
-                    </div>
-                    
-                    <div class="alert alert-success" id="contract-success">
-                        <i class="fas fa-check-circle"></i> Contract deployed successfully! Transaction hash: <span id="contract-tx-hash"></span>
-                    </div>
-                    
-                    <div class="alert alert-error" id="contract-error">
-                        <i class="fas fa-exclamation-circle"></i> Error deploying contract. Please check your inputs and try again.
-                    </div>
-                    
-                    <form id="contract-form">
-                        <div class="form-group">
-                            <label for="contract-name">
-                                <i class="fas fa-file-signature"></i> Contract Name
-                            </label>
-                            <input type="text" id="contract-name" class="form-control" placeholder="MyContract" required>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="contract-type">
-                                <i class="fas fa-cubes"></i> Contract Type
-                            </label>
-                            <select id="contract-type" class="form-control" required>
-                                <option value="">Select a contract type</option>
-                                <option value="erc20">ERC-20 Token</option>
-                                <option value="erc721">ERC-721 NFT</option>
-                                <option value="erc1155">ERC-1155 Multi Token</option>
-                                <option value="custom">Custom Contract</option>
-                            </select>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="contract-code">
-                                <i class="fas fa-code"></i> Contract Code (Solidity)
-                            </label>
-                            <textarea id="contract-code" class="form-control" rows="12" placeholder="// Paste your Solidity code here"></textarea>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="constructor-args">
-                                <i class="fas fa-cogs"></i> Constructor Arguments (JSON format)
-                            </label>
-                            <textarea id="constructor-args" class="form-control" rows="4" placeholder='["arg1", "arg2"]'></textarea>
-                        </div>
-                        
-                        <button type="submit" class="btn btn-full" id="deploy-contract-btn" style="padding: 1.2rem;">
-                            <i class="fas fa-rocket"></i>
-                            <span>Deploy Contract</span>
-                        </button>
-                    </form>
-                </div>
-                
-                <!-- Additional tab content would go here -->
-            </div>
+        <div class="header">
+            <h1>🚀 Airdrop Project Manager</h1>
+            <p style="margin-bottom: 20px;">আপনার সকল প্রজেক্ট সুন্দরভাবে ম্যানেজ করুন</p>
+            <button class="add-project-btn" onclick="openModal()">+ নতুন প্রজেক্ট যোগ করুন</button>
         </div>
         
-        <footer class="footer">
-            <p>Rays L1 Token Studio - Professional Token Creation Platform</p>
-            <div class="footer-links">
-                <a href="https://devnet-explorer.rays.com" target="_blank">Block Explorer</a>
-                <a href="https://docs.rays.com" target="_blank">Documentation</a>
-                <a href="https://rays.com" target="_blank">Rays Network</a>
-                <a href="#">Terms of Service</a>
-                <a href="#">Privacy Policy</a>
-            </div>
-        </footer>
+        <div class="projects-grid" id="projectsGrid"></div>
+        <div class="empty-state" id="emptyState" style="display: none;">
+            কোনো প্রজেক্ট নেই। উপরের বাটনে ক্লিক করে নতুন প্রজেক্ট যোগ করুন!
+        </div>
     </div>
 
-    <!-- Wallet Connection Modal -->
-    <div class="wallet-modal" id="wallet-modal">
-        <div class="wallet-modal-content">
-            <div class="wallet-modal-header">
-                <h2 class="wallet-modal-title">Connect Wallet</h2>
-                <p class="wallet-modal-subtitle">Choose your preferred wallet to connect</p>
-            </div>
-            <div class="wallet-options">
-                <div class="wallet-option" id="metamask-option">
-                    <div class="wallet-icon">
-                        <i class="fab fa-ethereum"></i>
-                    </div>
-                    <div class="wallet-details">
-                        <div class="wallet-name">MetaMask</div>
-                        <div class="wallet-description">Connect to your MetaMask Wallet</div>
-                    </div>
-                    <i class="fas fa-chevron-right"></i>
+    <!-- Modal -->
+    <div id="projectModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2 id="modalTitle">নতুন প্রজেক্ট যোগ করুন</h2>
+            <form id="projectForm" onsubmit="saveProject(event)">
+                <input type="hidden" id="projectId">
+                
+                <div class="form-group">
+                    <label>প্রজেক্টের নাম *</label>
+                    <input type="text" id="projectName" required placeholder="যেমন: Bitcoin Airdrop">
                 </div>
-                <div class="wallet-option" id="walletconnect-option">
-                    <div class="wallet-icon">
-                        <i class="fas fa-wallet"></i>
-                    </div>
-                    <div class="wallet-details">
-                        <div class="wallet-name">WalletConnect</div>
-                        <div class="wallet-description">Scan with WalletConnect</div>
-                    </div>
-                    <i class="fas fa-chevron-right"></i>
+                
+                <div class="form-group">
+                    <label>প্রজেক্ট লিংক</label>
+                    <input type="url" id="projectLink" placeholder="https://example.com">
                 </div>
-                <div class="wallet-option" id="coinbase-option">
-                    <div class="wallet-icon">
-                        <i class="fab fa-bitcoin"></i>
-                    </div>
-                    <div class="wallet-details">
-                        <div class="wallet-name">Coinbase Wallet</div>
-                        <div class="wallet-description">Connect to Coinbase Wallet</div>
-                    </div>
-                    <i class="fas fa-chevron-right"></i>
+                
+                <div class="form-group">
+                    <label>লোগো আপলোড করুন</label>
+                    <input type="file" id="logoInput" accept="image/*" onchange="previewLogo(event)">
+                    <img id="logoPreview" class="logo-preview">
                 </div>
-            </div>
+                
+                <div class="form-group">
+                    <label>নোট/বিবরণ</label>
+                    <textarea id="projectNotes" placeholder="আজকে কি কাজ করলেন লিখুন..."></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label>রিমাইন্ডার সেট করুন</label>
+                    <select id="reminderType">
+                        <option value="none">রিমাইন্ডার নাই</option>
+                        <option value="daily">ডেইলি রিমাইন্ডার</option>
+                        <option value="weekly">উইকলি রিমাইন্ডার</option>
+                    </select>
+                </div>
+                
+                <button type="submit" class="submit-btn">সেভ করুন</button>
+            </form>
         </div>
     </div>
 
     <script>
-        // DOM Elements
-        const connectWalletBtn = document.getElementById('connect-wallet');
-        const disconnectWalletBtn = document.getElementById('disconnect-wallet');
-        const walletInfo = document.getElementById('wallet-info');
-        const walletModal = document.getElementById('wallet-modal');
-        const walletAddress = document.getElementById('wallet-address');
-        const walletBalance = document.getElementById('wallet-balance');
-        const walletWarning = document.getElementById('wallet-warning');
-        const contractWalletWarning = document.getElementById('contract-wallet-warning');
-        const createTokenBtn = document.getElementById('create-token-btn');
-        const deployContractBtn = document.getElementById('deploy-contract-btn');
-        
-        // Wallet options
-        const metamaskOption = document.getElementById('metamask-option');
-        const walletconnectOption = document.getElementById('walletconnect-option');
-        const coinbaseOption = document.getElementById('coinbase-option');
-        
-        // Sidebar navigation
-        const sidebarItems = document.querySelectorAll('.sidebar-item');
-        
-        // State
-        let isConnected = false;
-        let currentAddress = '';
-        
-        // Sidebar navigation
-        sidebarItems.forEach(item => {
-            item.addEventListener('click', () => {
-                // Remove active class from all items
-                sidebarItems.forEach(i => i.classList.remove('active'));
-                
-                // Add active class to clicked item
-                item.classList.add('active');
-                
-                // Hide all tab contents
-                document.querySelectorAll('.tab-content').forEach(content => {
-                    content.classList.remove('active');
-                });
-                
-                // Show corresponding tab content
-                const tabId = item.getAttribute('data-tab');
-                document.getElementById(`${tabId}-tab`).classList.add('active');
-            });
-        });
-        
-        // Wallet connection handlers
-        connectWalletBtn.addEventListener('click', () => {
-            walletModal.style.display = 'flex';
-        });
-        
-        window.addEventListener('click', (e) => {
-            if (e.target === walletModal) {
-                walletModal.style.display = 'none';
+        let projects = [];
+        let editingId = null;
+
+        // Load projects from localStorage
+        function loadProjects() {
+            const saved = localStorage.getItem('airdropProjects');
+            if (saved) {
+                projects = JSON.parse(saved);
+                displayProjects();
+                checkReminders();
+            } else {
+                document.getElementById('emptyState').style.display = 'block';
             }
-        });
-        
-        // Simulate wallet connections
-        metamaskOption.addEventListener('click', () => {
-            connectWallet('MetaMask');
-        });
-        
-        walletconnectOption.addEventListener('click', () => {
-            connectWallet('WalletConnect');
-        });
-        
-        coinbaseOption.addEventListener('click', () => {
-            connectWallet('Coinbase Wallet');
-        });
-        
-        disconnectWalletBtn.addEventListener('click', disconnectWallet);
-        
-        function connectWallet(walletType) {
-            // In a real implementation, this would connect to the actual wallet
-            // For this demo, we'll simulate a connection
-            
-            // Generate a fake address
-            const address = '0x742d35Cc6634C0532925a3b8Dc2388e' + Math.floor(Math.random() * 10000).toString().padStart(4, '0');
-            currentAddress = address;
-            
-            // Generate a fake balance
-            const balance = (Math.random() * 100).toFixed(4);
-            
-            // Update UI
-            walletAddress.textContent = `${address.substring(0, 6)}...${address.substring(address.length - 4)}`;
-            walletBalance.textContent = `${balance} USDgas`;
-            
-            // Update form with connected wallet address
-            document.getElementById('token-owner').value = address;
-            updateTokenPreview();
-            
-            // Show wallet info, hide connect button
-            walletInfo.style.display = 'flex';
-            connectWalletBtn.style.display = 'none';
-            
-            // Hide wallet warnings
-            walletWarning.style.display = 'none';
-            contractWalletWarning.style.display = 'none';
-            
-            // Enable form buttons
-            createTokenBtn.disabled = false;
-            deployContractBtn.disabled = false;
-            
-            // Close modal
-            walletModal.style.display = 'none';
-            
-            // Update state
-            isConnected = true;
-            
-            // Show success message
-            showAlert(`Successfully connected to ${walletType}`, 'success');
         }
-        
-        function disconnectWallet() {
-            // Reset UI
-            walletInfo.style.display = 'none';
-            connectWalletBtn.style.display = 'flex';
-            
-            // Show wallet warnings
-            walletWarning.style.display = 'block';
-            contractWalletWarning.style.display = 'block';
-            
-            // Disable form buttons
-            createTokenBtn.disabled = true;
-            deployContractBtn.disabled = true;
-            
-            // Clear form
-            document.getElementById('token-owner').value = '';
-            updateTokenPreview();
-            
-            // Update state
-            isConnected = false;
-            currentAddress = '';
-            
-            // Show message
-            showAlert('Wallet disconnected', 'warning');
+
+        // Save projects to localStorage
+        function saveToStorage() {
+            localStorage.setItem('airdropProjects', JSON.stringify(projects));
         }
-        
-        // Token form preview
-        const tokenForm = document.getElementById('token-form');
-        const tokenInputs = tokenForm.querySelectorAll('input');
-        
-        tokenInputs.forEach(input => {
-            input.addEventListener('input', updateTokenPreview);
-        });
-        
-        function updateTokenPreview() {
-            document.getElementById('preview-name').textContent = document.getElementById('token-name').value || '-';
-            document.getElementById('preview-symbol').textContent = document.getElementById('token-symbol').value || '-';
-            document.getElementById('preview-supply').textContent = document.getElementById('token-supply').value ? 
-                Number(document.getElementById('token-supply').value).toLocaleString() : '-';
-            document.getElementById('preview-decimals').textContent = document.getElementById('token-decimals').value || '-';
-            document.getElementById('preview-owner').textContent = document.getElementById('token-owner').value || '-';
-        }
-        
-        // Form submission handlers
-        tokenForm.addEventListener('submit', function(e) {
-            e.preventDefault();
+
+        // Open modal
+        function openModal(project = null) {
+            const modal = document.getElementById('projectModal');
+            const form = document.getElementById('projectForm');
             
-            if (!isConnected) {
-                showAlert('Please connect your wallet first', 'error');
-                return;
-            }
-            
-            // In a real implementation, this would connect to a backend service
-            // that interacts with the blockchain
-            const tokenName = document.getElementById('token-name').value;
-            const tokenSymbol = document.getElementById('token-symbol').value;
-            
-            // Simulate transaction
-            simulateTransaction('token', tokenName, tokenSymbol);
-        });
-        
-        document.getElementById('contract-form').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            if (!isConnected) {
-                showAlert('Please connect your wallet first', 'error');
-                return;
-            }
-            
-            // In a real implementation, this would connect to a backend service
-            // that interacts with the blockchain
-            const contractName = document.getElementById('contract-name').value;
-            const contractType = document.getElementById('contract-type').value;
-            
-            // Simulate transaction
-            simulateTransaction('contract', contractName, contractType);
-        });
-        
-        function simulateTransaction(type, name, identifier) {
-            // Hide any previous alerts
-            document.getElementById(`${type}-success`).style.display = 'none';
-            document.getElementById(`${type}-error`).style.display = 'none';
-            
-            // Generate a fake transaction hash
-            const txHash = '0x' + Math.random().toString(16).substr(2, 64);
-            
-            // In a real implementation, we would:
-            // 1. Connect to the user's wallet (MetaMask, etc.)
-            // 2. Send the transaction to the blockchain
-            // 3. Wait for confirmation
-            // 4. Show the result
-            
-            // For this demo, we'll simulate a successful transaction after a delay
-            setTimeout(() => {
-                document.getElementById(`${type}-success`).style.display = 'block';
-                if (type === 'token') {
-                    document.getElementById('tx-hash').textContent = txHash;
-                } else {
-                    document.getElementById('contract-tx-hash').textContent = txHash;
+            if (project) {
+                document.getElementById('modalTitle').textContent = 'প্রজেক্ট এডিট করুন';
+                document.getElementById('projectId').value = project.id;
+                document.getElementById('projectName').value = project.name;
+                document.getElementById('projectLink').value = project.link || '';
+                document.getElementById('projectNotes').value = project.notes || '';
+                document.getElementById('reminderType').value = project.reminder || 'none';
+                
+                if (project.logo) {
+                    document.getElementById('logoPreview').src = project.logo;
+                    document.getElementById('logoPreview').style.display = 'block';
                 }
+                editingId = project.id;
+            } else {
+                document.getElementById('modalTitle').textContent = 'নতুন প্রজেক্ট যোগ করুন';
+                form.reset();
+                document.getElementById('logoPreview').style.display = 'none';
+                editingId = null;
+            }
+            
+            modal.style.display = 'block';
+        }
+
+        // Close modal
+        function closeModal() {
+            document.getElementById('projectModal').style.display = 'none';
+        }
+
+        // Preview logo
+        function previewLogo(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const preview = document.getElementById('logoPreview');
+                    preview.src = e.target.result;
+                    preview.style.display = 'block';
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        // Save project
+        function saveProject(event) {
+            event.preventDefault();
+            
+            const name = document.getElementById('projectName').value;
+            const link = document.getElementById('projectLink').value;
+            const notes = document.getElementById('projectNotes').value;
+            const reminder = document.getElementById('reminderType').value;
+            const logoPreview = document.getElementById('logoPreview');
+            const logo = logoPreview.style.display === 'block' ? logoPreview.src : null;
+            
+            if (editingId) {
+                // Update existing project
+                const index = projects.findIndex(p => p.id === editingId);
+                if (index !== -1) {
+                    projects[index] = {
+                        ...projects[index],
+                        name,
+                        link,
+                        notes,
+                        reminder,
+                        logo,
+                        lastReminder: projects[index].lastReminder
+                    };
+                }
+            } else {
+                // Add new project
+                const project = {
+                    id: Date.now().toString(),
+                    name,
+                    link,
+                    notes,
+                    reminder,
+                    logo,
+                    createdAt: new Date().toISOString(),
+                    lastReminder: null
+                };
+                projects.push(project);
+            }
+            
+            saveToStorage();
+            displayProjects();
+            closeModal();
+            document.getElementById('projectForm').reset();
+        }
+
+        // Display projects
+        function displayProjects() {
+            const grid = document.getElementById('projectsGrid');
+            const emptyState = document.getElementById('emptyState');
+            
+            if (projects.length === 0) {
+                grid.innerHTML = '';
+                emptyState.style.display = 'block';
+                return;
+            }
+            
+            emptyState.style.display = 'none';
+            grid.innerHTML = projects.map(project => `
+                <div class="project-card">
+                    <div class="project-header">
+                        ${project.logo ? `<img src="${project.logo}" class="project-logo" alt="Logo">` : ''}
+                        <div class="project-title">${project.name}</div>
+                    </div>
+                    
+                    ${project.link ? `<a href="${project.link}" class="project-link" target="_blank">🔗 ${project.link}</a><br>` : ''}
+                    
+                    ${project.notes ? `<div class="project-notes">${project.notes}</div>` : ''}
+                    
+                    ${project.reminder !== 'none' ? `
+                        <span class="reminder-badge ${project.reminder}">
+                            ${project.reminder === 'daily' ? '🔔 ডেইলি রিমাইন্ডার' : '🔔 উইকলি রিমাইন্ডার'}
+                        </span>
+                    ` : ''}
+                    
+                    <div class="project-actions">
+                        <button class="edit-btn" onclick='openModal(${JSON.stringify(project).replace(/'/g, "&apos;")})'>এডিট</button>
+                        <button class="delete-btn" onclick="deleteProject('${project.id}')">ডিলিট</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Delete project
+        function deleteProject(id) {
+            if (confirm('আপনি কি নিশ্চিত এই প্রজেক্টটি ডিলিট করতে চান?')) {
+                projects = projects.filter(p => p.id !== id);
+                saveToStorage();
+                displayProjects();
+            }
+        }
+
+        // Check reminders
+        function checkReminders() {
+            const now = new Date();
+            const today = now.toDateString();
+            
+            projects.forEach(project => {
+                if (project.reminder === 'none') return;
                 
-                // Reset form after successful submission
-                if (type === 'token') {
-                    tokenForm.reset();
-                    // Keep the owner address if wallet is connected
-                    if (isConnected) {
-                        document.getElementById('token-owner').value = currentAddress;
+                const lastReminder = project.lastReminder ? new Date(project.lastReminder) : null;
+                
+                let shouldRemind = false;
+                
+                if (project.reminder === 'daily') {
+                    if (!lastReminder || lastReminder.toDateString() !== today) {
+                        shouldRemind = true;
                     }
-                    updateTokenPreview();
-                } else {
-                    document.getElementById('contract-form').reset();
+                } else if (project.reminder === 'weekly') {
+                    if (!lastReminder || (now - lastReminder) >= 7 * 24 * 60 * 60 * 1000) {
+                        shouldRemind = true;
+                    }
                 }
                 
-                showAlert(`${type === 'token' ? 'Token' : 'Contract'} created successfully!`, 'success');
-            }, 2000);
-        }
-        
-        function showAlert(message, type) {
-            // Create a temporary alert element
-            const alert = document.createElement('div');
-            alert.className = `alert alert-${type}`;
-            alert.innerHTML = `<i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' : 'exclamation-triangle'}"></i> ${message}`;
-            alert.style.position = 'fixed';
-            alert.style.top = '20px';
-            alert.style.right = '20px';
-            alert.style.zIndex = '1001';
-            alert.style.maxWidth = '350px';
-            alert.style.display = 'block';
+                if (shouldRemind) {
+                    showReminder(project);
+                    project.lastReminder = now.toISOString();
+                }
+            });
             
-            document.body.appendChild(alert);
-            
-            // Remove after 5 seconds
-            setTimeout(() => {
-                alert.remove();
-            }, 5000);
+            saveToStorage();
         }
+
+        // Show reminder notification
+        function showReminder(project) {
+            if ('Notification' in window) {
+                Notification.requestPermission().then(permission => {
+                    if (permission === 'granted') {
+                        new Notification('🚀 Airdrop Reminder', {
+                            body: `${project.name} - এই প্রজেক্টে কাজ করার সময় হয়েছে!`,
+                            icon: project.logo || ''
+                        });
+                    } else {
+                        alert(`🚀 Reminder: ${project.name}\n\nএই প্রজেক্টে কাজ করার সময় হয়েছে!`);
+                    }
+                });
+            } else {
+                alert(`🚀 Reminder: ${project.name}\n\nএই প্রজেক্টে কাজ করার সময় হয়েছে!`);
+            }
+        }
+
+        // Close modal on outside click
+        window.onclick = function(event) {
+            const modal = document.getElementById('projectModal');
+            if (event.target === modal) {
+                closeModal();
+            }
+        }
+
+        // Request notification permission
+        if ('Notification' in window && Notification.permission === 'default') {
+            Notification.requestPermission();
+        }
+
+        // Initialize
+        loadProjects();
         
-        // Initialize token preview and disable buttons initially
-        updateTokenPreview();
-        createTokenBtn.disabled = true;
-        deployContractBtn.disabled = true;
+        // Check reminders every hour
+        setInterval(checkReminders, 60 * 60 * 1000);
     </script>
 </body>
 </html>
