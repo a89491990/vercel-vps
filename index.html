@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Airdrop Project Manager</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        
         * {
             margin: 0;
             padding: 0;
@@ -12,45 +14,200 @@
         }
         
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 50%, #7e22ce 100%);
             min-height: 100vh;
             padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+        
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="%23ffffff" fill-opacity="0.05" d="M0,96L48,112C96,128,192,160,288,160C384,160,480,128,576,112C672,96,768,96,864,112C960,128,1056,160,1152,165.3C1248,171,1344,149,1392,138.7L1440,128L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>');
+            background-size: cover;
+            background-position: bottom;
+            pointer-events: none;
+            z-index: 0;
         }
         
         .container {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
+            position: relative;
+            z-index: 1;
         }
         
         .header {
             text-align: center;
-            color: white;
-            margin-bottom: 30px;
+            margin-bottom: 50px;
+            animation: fadeInDown 0.8s ease-out;
+        }
+        
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
         
         .header h1 {
-            font-size: 2.5em;
-            margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            font-size: 3.5em;
+            color: white;
+            margin-bottom: 15px;
+            text-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+            font-weight: 700;
+            letter-spacing: -1px;
         }
         
-        .add-project-btn {
+        .header p {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 1.2em;
+            margin-bottom: 30px;
+            font-weight: 300;
+        }
+
+        .share-info {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 30px;
+            color: white;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .share-info h3 {
+            margin-bottom: 10px;
+            font-size: 1.3em;
+        }
+
+        .share-info p {
+            font-size: 0.95em;
+            opacity: 0.9;
+            margin-bottom: 15px;
+        }
+
+        .share-link-container {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .share-link {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 12px;
+            border-radius: 8px;
+            color: white;
+            font-family: monospace;
+            word-break: break-all;
+        }
+
+        .copy-btn {
             background: #4CAF50;
             color: white;
             border: none;
-            padding: 15px 30px;
-            font-size: 18px;
-            border-radius: 25px;
+            padding: 12px 25px;
+            border-radius: 8px;
             cursor: pointer;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            font-weight: 600;
             transition: all 0.3s;
+        }
+
+        .copy-btn:hover {
+            background: #45a049;
+            transform: translateY(-2px);
+        }
+        
+        .stats-container {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .stat-card {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            padding: 20px 40px;
+            color: white;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+        
+        .stat-number {
+            font-size: 2.5em;
+            font-weight: 700;
+            display: block;
+        }
+        
+        .stat-label {
+            font-size: 0.9em;
+            opacity: 0.9;
+            font-weight: 300;
+        }
+
+        .loading-spinner {
+            text-align: center;
+            color: white;
+            padding: 50px;
+            font-size: 1.5em;
+        }
+
+        .spinner {
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-top: 4px solid white;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .add-project-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 18px 45px;
+            font-size: 18px;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+            transition: all 0.3s;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
         }
         
         .add-project-btn:hover {
-            background: #45a049;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.6);
+        }
+        
+        .add-project-btn:active {
+            transform: translateY(-1px);
         }
         
         .modal {
@@ -61,41 +218,82 @@
             top: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0,0,0,0.5);
+            background-color: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(5px);
             overflow-y: auto;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
         
         .modal-content {
-            background-color: white;
+            background: linear-gradient(135deg, #ffffff 0%, #f8f9ff 100%);
             margin: 50px auto;
-            padding: 30px;
-            border-radius: 15px;
+            padding: 40px;
+            border-radius: 25px;
             width: 90%;
-            max-width: 600px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            max-width: 650px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            animation: slideUp 0.4s ease;
+            position: relative;
+        }
+        
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .modal-content h2 {
+            color: #1e3c72;
+            margin-bottom: 30px;
+            font-size: 2em;
+            font-weight: 600;
         }
         
         .close {
-            color: #aaa;
-            float: right;
-            font-size: 28px;
-            font-weight: bold;
+            position: absolute;
+            right: 25px;
+            top: 25px;
+            color: #999;
+            font-size: 32px;
+            font-weight: 300;
             cursor: pointer;
+            transition: all 0.3s;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
         }
         
         .close:hover {
-            color: #000;
+            background: rgba(0, 0, 0, 0.05);
+            color: #333;
+            transform: rotate(90deg);
         }
         
         .form-group {
-            margin-bottom: 20px;
+            margin-bottom: 25px;
         }
         
         .form-group label {
             display: block;
-            margin-bottom: 8px;
-            font-weight: bold;
+            margin-bottom: 10px;
+            font-weight: 600;
             color: #333;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
         
         .form-group input[type="text"],
@@ -103,11 +301,13 @@
         .form-group textarea,
         .form-group select {
             width: 100%;
-            padding: 12px;
-            border: 2px solid #ddd;
-            border-radius: 8px;
+            padding: 15px 20px;
+            border: 2px solid #e0e7ff;
+            border-radius: 12px;
             font-size: 16px;
-            transition: border 0.3s;
+            transition: all 0.3s;
+            font-family: 'Poppins', sans-serif;
+            background: white;
         }
         
         .form-group input:focus,
@@ -115,158 +315,268 @@
         .form-group select:focus {
             outline: none;
             border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
         }
         
         .form-group textarea {
-            min-height: 100px;
+            min-height: 120px;
             resize: vertical;
         }
         
+        .file-input-wrapper {
+            position: relative;
+            overflow: hidden;
+            display: inline-block;
+            width: 100%;
+        }
+        
+        .file-input-label {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 15px 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+        
+        .file-input-label:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+        
+        #logoInput {
+            position: absolute;
+            left: -9999px;
+        }
+        
         .logo-preview {
-            max-width: 150px;
-            max-height: 150px;
-            margin-top: 10px;
-            border-radius: 8px;
+            max-width: 180px;
+            max-height: 180px;
+            margin-top: 15px;
+            border-radius: 15px;
             display: none;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            border: 3px solid white;
         }
         
         .submit-btn {
-            background: #667eea;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
             border: none;
-            padding: 12px 30px;
-            font-size: 16px;
-            border-radius: 8px;
+            padding: 16px 30px;
+            font-size: 18px;
+            border-radius: 12px;
             cursor: pointer;
             width: 100%;
             transition: all 0.3s;
+            font-weight: 600;
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.3);
         }
         
         .submit-btn:hover {
-            background: #5568d3;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(102, 126, 234, 0.5);
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
         }
         
         .projects-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-            gap: 25px;
+            grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+            gap: 30px;
             margin-top: 30px;
+            animation: fadeInUp 0.8s ease-out;
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
         
         .project-card {
-            background: white;
-            border-radius: 15px;
-            padding: 25px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
-            transition: all 0.3s;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 1px solid rgba(255, 255, 255, 0.3);
             position: relative;
+            overflow: hidden;
+        }
+        
+        .project-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
         }
         
         .project-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
         }
         
         .project-header {
             display: flex;
             align-items: center;
-            margin-bottom: 15px;
-            gap: 15px;
+            margin-bottom: 20px;
+            gap: 20px;
         }
         
         .project-logo {
-            width: 60px;
-            height: 60px;
-            border-radius: 10px;
+            width: 70px;
+            height: 70px;
+            border-radius: 15px;
             object-fit: cover;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            border: 3px solid white;
         }
         
         .project-title {
             flex: 1;
-            font-size: 1.3em;
-            font-weight: bold;
-            color: #333;
+            font-size: 1.5em;
+            font-weight: 600;
+            color: #1e3c72;
+            line-height: 1.3;
         }
         
         .project-link {
-            display: inline-block;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
             color: #667eea;
             text-decoration: none;
-            margin-bottom: 10px;
+            margin-bottom: 15px;
+            font-weight: 500;
             word-break: break-all;
+            transition: all 0.3s;
         }
         
         .project-link:hover {
-            text-decoration: underline;
+            color: #764ba2;
+            transform: translateX(5px);
         }
         
         .project-notes {
-            background: #f5f5f5;
-            padding: 15px;
-            border-radius: 8px;
-            margin: 15px 0;
-            color: #666;
-            line-height: 1.6;
+            background: linear-gradient(135deg, #f0f4ff 0%, #e8edff 100%);
+            padding: 20px;
+            border-radius: 12px;
+            margin: 20px 0;
+            color: #555;
+            line-height: 1.8;
+            border-left: 4px solid #667eea;
         }
         
         .reminder-badge {
-            display: inline-block;
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: bold;
-            margin-top: 10px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 18px;
+            border-radius: 25px;
+            font-size: 13px;
+            font-weight: 600;
+            margin-top: 15px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
         }
         
         .daily {
-            background: #4CAF50;
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
             color: white;
         }
         
         .weekly {
-            background: #2196F3;
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
             color: white;
         }
         
         .project-actions {
             display: flex;
-            gap: 10px;
-            margin-top: 15px;
+            gap: 12px;
+            margin-top: 20px;
+        }
+        
+        .delete-btn, .edit-btn {
+            border: none;
+            padding: 12px 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            flex: 1;
+            font-weight: 600;
+            transition: all 0.3s;
+            font-size: 14px;
         }
         
         .delete-btn {
-            background: #f44336;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
             color: white;
-            border: none;
-            padding: 8px 16px;
-            border-radius: 6px;
-            cursor: pointer;
-            flex: 1;
+            box-shadow: 0 3px 10px rgba(245, 87, 108, 0.3);
         }
         
         .delete-btn:hover {
-            background: #da190b;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(245, 87, 108, 0.5);
         }
         
         .edit-btn {
-            background: #FF9800;
+            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
             color: white;
-            border: none;
-            padding: 8px 16px;
-            border-radius: 6px;
-            cursor: pointer;
-            flex: 1;
+            box-shadow: 0 3px 10px rgba(255, 152, 0, 0.3);
         }
         
         .edit-btn:hover {
-            background: #e68900;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(255, 152, 0, 0.5);
         }
         
         .empty-state {
             text-align: center;
             color: white;
-            padding: 50px;
-            font-size: 1.2em;
+            padding: 80px 20px;
+            font-size: 1.3em;
+            animation: fadeIn 0.8s ease;
+        }
+        
+        .empty-state-icon {
+            font-size: 5em;
+            margin-bottom: 20px;
+            opacity: 0.8;
+        }
+        
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2.5em;
+            }
+            
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .stats-container {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .share-link-container {
+                flex-direction: column;
+            }
         }
     </style>
 </head>
@@ -274,12 +584,45 @@
     <div class="container">
         <div class="header">
             <h1>🚀 Airdrop Project Manager</h1>
-            <p style="margin-bottom: 20px;">আপনার সকল প্রজেক্ট সুন্দরভাবে ম্যানেজ করুন</p>
-            <button class="add-project-btn" onclick="openModal()">+ নতুন প্রজেক্ট যোগ করুন</button>
+            <p>আপনার সকল প্রজেক্ট সবার সাথে শেয়ার করুন</p>
+
+            <div class="share-info">
+                <h3>📢 সবাই দেখতে পারবে!</h3>
+                <p>এই অ্যাপে যোগ করা সব প্রজেক্ট সবাই দেখতে পারবে যারা এই পেজটি ওপেন করবে। আপনার প্রজেক্ট শেয়ার করার জন্য নিচের লিংকটি কপি করে শেয়ার করুন:</p>
+                <div class="share-link-container">
+                    <div class="share-link" id="shareLink">Loading...</div>
+                    <button class="copy-btn" onclick="copyShareLink()">📋 কপি করুন</button>
+                </div>
+            </div>
+            
+            <div class="stats-container">
+                <div class="stat-card">
+                    <span class="stat-number" id="totalProjects">0</span>
+                    <span class="stat-label">মোট প্রজেক্ট</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number" id="dailyReminders">0</span>
+                    <span class="stat-label">ডেইলি রিমাইন্ডার</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number" id="weeklyReminders">0</span>
+                    <span class="stat-label">উইকলি রিমাইন্ডার</span>
+                </div>
+            </div>
+            
+            <button class="add-project-btn" onclick="openModal()">
+                <span style="font-size: 1.5em;">+</span> নতুন প্রজেক্ট যোগ করুন
+            </button>
+        </div>
+
+        <div class="loading-spinner" id="loadingSpinner">
+            <div class="spinner"></div>
+            <div>প্রজেক্ট লোড হচ্ছে...</div>
         </div>
         
-        <div class="projects-grid" id="projectsGrid"></div>
+        <div class="projects-grid" id="projectsGrid" style="display: none;"></div>
         <div class="empty-state" id="emptyState" style="display: none;">
+            <div class="empty-state-icon">📋</div>
             কোনো প্রজেক্ট নেই। উপরের বাটনে ক্লিক করে নতুন প্রজেক্ট যোগ করুন!
         </div>
     </div>
@@ -304,7 +647,13 @@
                 
                 <div class="form-group">
                     <label>লোগো আপলোড করুন</label>
-                    <input type="file" id="logoInput" accept="image/*" onchange="previewLogo(event)">
+                    <div class="file-input-wrapper">
+                        <label for="logoInput" class="file-input-label">
+                            <span style="font-size: 1.5em;">📁</span>
+                            <span>লোগো বাছাই করুন</span>
+                        </label>
+                        <input type="file" id="logoInput" accept="image/*" onchange="previewLogo(event)">
+                    </div>
                     <img id="logoPreview" class="logo-preview">
                 </div>
                 
@@ -322,7 +671,7 @@
                     </select>
                 </div>
                 
-                <button type="submit" class="submit-btn">সেভ করুন</button>
+                <button type="submit" class="submit-btn" id="submitBtn">সেভ করুন</button>
             </form>
         </div>
     </div>
@@ -331,24 +680,78 @@
         let projects = [];
         let editingId = null;
 
-        // Load projects from localStorage
-        function loadProjects() {
-            const saved = localStorage.getItem('airdropProjects');
-            if (saved) {
-                projects = JSON.parse(saved);
+        // Initialize share link
+        document.getElementById('shareLink').textContent = window.location.href;
+
+        function copyShareLink() {
+            const link = window.location.href;
+            navigator.clipboard.writeText(link).then(() => {
+                const btn = document.querySelector('.copy-btn');
+                const originalText = btn.innerHTML;
+                btn.innerHTML = '✅ কপি হয়েছে!';
+                setTimeout(() => {
+                    btn.innerHTML = originalText;
+                }, 2000);
+            });
+        }
+
+        async function loadProjects() {
+            const spinner = document.getElementById('loadingSpinner');
+            const grid = document.getElementById('projectsGrid');
+            const emptyState = document.getElementById('emptyState');
+
+            try {
+                spinner.style.display = 'block';
+                grid.style.display = 'none';
+                emptyState.style.display = 'none';
+
+                // Get all project keys from shared storage
+                const result = await window.storage.list('project:', true);
+                
+                if (result && result.keys && result.keys.length > 0) {
+                    projects = [];
+                    
+                    // Load each project
+                    for (const key of result.keys) {
+                        try {
+                            const projectData = await window.storage.get(key, true);
+                            if (projectData && projectData.value) {
+                                const project = JSON.parse(projectData.value);
+                                projects.push(project);
+                            }
+                        } catch (err) {
+                            console.error('Error loading project:', err);
+                        }
+                    }
+                    
+                    // Sort by creation date
+                    projects.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+                }
+
                 displayProjects();
+                updateStats();
                 checkReminders();
-            } else {
-                document.getElementById('emptyState').style.display = 'block';
+
+            } catch (error) {
+                console.error('Error loading projects:', error);
+                emptyState.style.display = 'block';
+                emptyState.innerHTML = `
+                    <div class="empty-state-icon">⚠️</div>
+                    প্রজেক্ট লোড করতে সমস্যা হয়েছে। পেজ রিফ্রেশ করুন।
+                `;
+            } finally {
+                spinner.style.display = 'none';
             }
         }
 
-        // Save projects to localStorage
-        function saveToStorage() {
-            localStorage.setItem('airdropProjects', JSON.stringify(projects));
+        function updateStats() {
+            document.getElementById('totalProjects').textContent = projects.length;
+            document.getElementById('dailyReminders').textContent = 
+                projects.filter(p => p.reminder === 'daily').length;
+            document.getElementById('weeklyReminders').textContent = 
+                projects.filter(p => p.reminder === 'weekly').length;
         }
 
-        // Open modal
         function openModal(project = null) {
             const modal = document.getElementById('projectModal');
             const form = document.getElementById('projectForm');
@@ -376,12 +779,10 @@
             modal.style.display = 'block';
         }
 
-        // Close modal
         function closeModal() {
             document.getElementById('projectModal').style.display = 'none';
         }
 
-        // Preview logo
         function previewLogo(event) {
             const file = event.target.files[0];
             if (file) {
@@ -395,165 +796,36 @@
             }
         }
 
-        // Save project
-        function saveProject(event) {
+        async function saveProject(event) {
             event.preventDefault();
             
-            const name = document.getElementById('projectName').value;
-            const link = document.getElementById('projectLink').value;
-            const notes = document.getElementById('projectNotes').value;
-            const reminder = document.getElementById('reminderType').value;
-            const logoPreview = document.getElementById('logoPreview');
-            const logo = logoPreview.style.display === 'block' ? logoPreview.src : null;
-            
-            if (editingId) {
-                // Update existing project
-                const index = projects.findIndex(p => p.id === editingId);
-                if (index !== -1) {
-                    projects[index] = {
-                        ...projects[index],
+            const submitBtn = document.getElementById('submitBtn');
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'সেভ হচ্ছে...';
+
+            try {
+                const name = document.getElementById('projectName').value;
+                const link = document.getElementById('projectLink').value;
+                const notes = document.getElementById('projectNotes').value;
+                const reminder = document.getElementById('reminderType').value;
+                const logoPreview = document.getElementById('logoPreview');
+                const logo = logoPreview.style.display === 'block' ? logoPreview.src : null;
+                
+                let project;
+                
+                if (editingId) {
+                    // Update existing project
+                    const existingProject = projects.find(p => p.id === editingId);
+                    project = {
+                        ...existingProject,
                         name,
                         link,
                         notes,
                         reminder,
                         logo,
-                        lastReminder: projects[index].lastReminder
+                        updatedAt: new Date().toISOString()
                     };
-                }
-            } else {
-                // Add new project
-                const project = {
-                    id: Date.now().toString(),
-                    name,
-                    link,
-                    notes,
-                    reminder,
-                    logo,
-                    createdAt: new Date().toISOString(),
-                    lastReminder: null
-                };
-                projects.push(project);
-            }
-            
-            saveToStorage();
-            displayProjects();
-            closeModal();
-            document.getElementById('projectForm').reset();
-        }
-
-        // Display projects
-        function displayProjects() {
-            const grid = document.getElementById('projectsGrid');
-            const emptyState = document.getElementById('emptyState');
-            
-            if (projects.length === 0) {
-                grid.innerHTML = '';
-                emptyState.style.display = 'block';
-                return;
-            }
-            
-            emptyState.style.display = 'none';
-            grid.innerHTML = projects.map(project => `
-                <div class="project-card">
-                    <div class="project-header">
-                        ${project.logo ? `<img src="${project.logo}" class="project-logo" alt="Logo">` : ''}
-                        <div class="project-title">${project.name}</div>
-                    </div>
-                    
-                    ${project.link ? `<a href="${project.link}" class="project-link" target="_blank">🔗 ${project.link}</a><br>` : ''}
-                    
-                    ${project.notes ? `<div class="project-notes">${project.notes}</div>` : ''}
-                    
-                    ${project.reminder !== 'none' ? `
-                        <span class="reminder-badge ${project.reminder}">
-                            ${project.reminder === 'daily' ? '🔔 ডেইলি রিমাইন্ডার' : '🔔 উইকলি রিমাইন্ডার'}
-                        </span>
-                    ` : ''}
-                    
-                    <div class="project-actions">
-                        <button class="edit-btn" onclick='openModal(${JSON.stringify(project).replace(/'/g, "&apos;")})'>এডিট</button>
-                        <button class="delete-btn" onclick="deleteProject('${project.id}')">ডিলিট</button>
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        // Delete project
-        function deleteProject(id) {
-            if (confirm('আপনি কি নিশ্চিত এই প্রজেক্টটি ডিলিট করতে চান?')) {
-                projects = projects.filter(p => p.id !== id);
-                saveToStorage();
-                displayProjects();
-            }
-        }
-
-        // Check reminders
-        function checkReminders() {
-            const now = new Date();
-            const today = now.toDateString();
-            
-            projects.forEach(project => {
-                if (project.reminder === 'none') return;
-                
-                const lastReminder = project.lastReminder ? new Date(project.lastReminder) : null;
-                
-                let shouldRemind = false;
-                
-                if (project.reminder === 'daily') {
-                    if (!lastReminder || lastReminder.toDateString() !== today) {
-                        shouldRemind = true;
-                    }
-                } else if (project.reminder === 'weekly') {
-                    if (!lastReminder || (now - lastReminder) >= 7 * 24 * 60 * 60 * 1000) {
-                        shouldRemind = true;
-                    }
-                }
-                
-                if (shouldRemind) {
-                    showReminder(project);
-                    project.lastReminder = now.toISOString();
-                }
-            });
-            
-            saveToStorage();
-        }
-
-        // Show reminder notification
-        function showReminder(project) {
-            if ('Notification' in window) {
-                Notification.requestPermission().then(permission => {
-                    if (permission === 'granted') {
-                        new Notification('🚀 Airdrop Reminder', {
-                            body: `${project.name} - এই প্রজেক্টে কাজ করার সময় হয়েছে!`,
-                            icon: project.logo || ''
-                        });
-                    } else {
-                        alert(`🚀 Reminder: ${project.name}\n\nএই প্রজেক্টে কাজ করার সময় হয়েছে!`);
-                    }
-                });
-            } else {
-                alert(`🚀 Reminder: ${project.name}\n\nএই প্রজেক্টে কাজ করার সময় হয়েছে!`);
-            }
-        }
-
-        // Close modal on outside click
-        window.onclick = function(event) {
-            const modal = document.getElementById('projectModal');
-            if (event.target === modal) {
-                closeModal();
-            }
-        }
-
-        // Request notification permission
-        if ('Notification' in window && Notification.permission === 'default') {
-            Notification.requestPermission();
-        }
-
-        // Initialize
-        loadProjects();
-        
-        // Check reminders every hour
-        setInterval(checkReminders, 60 * 60 * 1000);
-    </script>
-</body>
-</html>
+                } else {
+                    // Create new project
+                    project = {
+                        id: Date
